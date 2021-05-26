@@ -20,11 +20,15 @@ namespace NumberConvertion
             {
                 string[] split_main_input = this.tb_input.Text.Split(".");
 
-                Number number = new Number();
+                NumberToWords number = new NumberToWords();
                 number.MainValue = split_main_input[0];
-                number.CentsValue = split_main_input[1];
 
-                this.lbl_ouput.Text = number.MainValue + " And " + number.CentsValue;
+                if (split_main_input.Length > 1)
+                    number.CentsValue = split_main_input[1];
+                else
+                    number.CentsValue = "000";
+
+                this.lbl_ouput.Text = number.ConvertNumberIntoWords();
             }
             catch (ArgumentOutOfRangeException ex)
             {

@@ -44,7 +44,7 @@ namespace NumberConvertion
             this.label2.Location = new System.Drawing.Point(28, 26);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(54, 25);
-            this.label2.TabIndex = 1;
+            this.label2.TabIndex = 6;
             this.label2.Text = "Input";
             // 
             // label3
@@ -53,7 +53,7 @@ namespace NumberConvertion
             this.label3.Location = new System.Drawing.Point(368, 247);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(63, 25);
-            this.label3.TabIndex = 4;
+            this.label3.TabIndex = 7;
             this.label3.Text = "Ouput";
             // 
             // btn_convert
@@ -61,7 +61,7 @@ namespace NumberConvertion
             this.btn_convert.Location = new System.Drawing.Point(28, 132);
             this.btn_convert.Name = "btn_convert";
             this.btn_convert.Size = new System.Drawing.Size(112, 34);
-            this.btn_convert.TabIndex = 3;
+            this.btn_convert.TabIndex = 2;
             this.btn_convert.Text = "Convert";
             this.btn_convert.UseVisualStyleBackColor = true;
             this.btn_convert.Click += new System.EventHandler(this.btn_convert_Click);
@@ -82,14 +82,14 @@ namespace NumberConvertion
             this.lbl_warning.Location = new System.Drawing.Point(28, 189);
             this.lbl_warning.Name = "lbl_warning";
             this.lbl_warning.Size = new System.Drawing.Size(458, 58);
-            this.lbl_warning.TabIndex = 6;
+            this.lbl_warning.TabIndex = 4;
             // 
             // btn_reset
             // 
             this.btn_reset.Location = new System.Drawing.Point(159, 132);
             this.btn_reset.Name = "btn_reset";
             this.btn_reset.Size = new System.Drawing.Size(112, 34);
-            this.btn_reset.TabIndex = 7;
+            this.btn_reset.TabIndex = 3;
             this.btn_reset.Text = "Reset";
             this.btn_reset.UseVisualStyleBackColor = true;
             this.btn_reset.Click += new System.EventHandler(this.btn_reset_Click);
@@ -99,7 +99,7 @@ namespace NumberConvertion
             this.tb_input.Location = new System.Drawing.Point(28, 70);
             this.tb_input.Name = "tb_input";
             this.tb_input.Size = new System.Drawing.Size(403, 31);
-            this.tb_input.TabIndex = 8;
+            this.tb_input.TabIndex = 1;
             this.tb_input.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_input_KeyPress);
             // 
             // number_converter
