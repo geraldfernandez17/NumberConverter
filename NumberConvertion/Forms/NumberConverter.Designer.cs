@@ -101,6 +101,7 @@ namespace NumberConvertion
             this.tb_input.Size = new System.Drawing.Size(403, 31);
             this.tb_input.TabIndex = 1;
             this.tb_input.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tb_input_KeyPress);
+            this.tb_input.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tb_input_KeyUp);
             // 
             // number_converter
             // 

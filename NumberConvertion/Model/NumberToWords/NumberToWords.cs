@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
-namespace NumberConvertion.Model
+namespace NumberConvertion.Model.NumberToWords
 {
     class NumberToWords : IConvert
     {
         private const int DEFAULT_NUMBER_SECTION = 1;
         private const int DEFAULT_HUNDREDS_SECTION = 0;
-        private const int DEFAULT_CENTS_LENGTH = 3;
+        private const string DEFAULT_EMPTY_SECTION = "000";
+        private const int DEFAULT_CENTS_LENGTH = 2;
+        private const int DEFAULT_EACH_SECTION_LENGTH = 3;
         private const int DEFAULT_MAX_MAIN_VALUE_SECTION = 7;
         private const int DEFAULT_MAX_MAIN_VALUE_LENGTH = DEFAULT_MAX_MAIN_VALUE_SECTION * 3;
+
         /*
             1. hundred
             2. thousand
@@ -21,7 +25,6 @@ namespace NumberConvertion.Model
             6. quadrillion
             7. quintillion
         */
-
 
 
         private string mainValue;
@@ -41,7 +44,7 @@ namespace NumberConvertion.Model
             set
             {
                 if (value.Length > DEFAULT_MAX_MAIN_VALUE_LENGTH)
-                    throw new ArgumentOutOfRangeException("The number is too large.");
+                    throw new ArgumentOutOfRangeException("The value is too large.");
                 else
                     this.mainValue = value;
             }
@@ -51,11 +54,11 @@ namespace NumberConvertion.Model
             get => this.centsValue;
             set
             {
-                if (value.Length > 3)
+                if (value.Length > DEFAULT_CENTS_LENGTH)
                 {
-                    decimal parseTemp = Math.Round(decimal.Parse(string.Concat("0.", value)), DEFAULT_CENTS_LENGTH);
-                    this.centsValue = parseTemp.ToString().Substring(2);
-
+                    //decimal parseTemp = Math.Round(decimal.Parse(string.Concat("0.", value)), DEFAULT_CENTS_LENGTH);
+                    //this.centsValue = parseTemp.ToString().Substring(2);
+                    throw new ArgumentOutOfRangeException("The number of cents is too long.");
                 }
                 else
                     this.centsValue = value;
@@ -64,6 +67,13 @@ namespace NumberConvertion.Model
 
         private string ConvertNumberGroups(int groupIndex)
         {
+            /*
+             GROUP INDEX OF EACH SECTION:
+             sext  quin  quad  tril  bill  mill  thou  nothing  self-init for hundred
+             000   000   000   000   000   000   000   000      000
+             8     7      6    5     4     3     2     1        0
+             */
+
             if (groupIndex == 0)
                 return "hundred";
             else if (groupIndex == 1)
@@ -191,9 +201,7 @@ namespace NumberConvertion.Model
             // convert tens:
             tenSentence = this.ConvertTens(tensOfHundreds);
 
-            if (hundreds.Equals("000"))
-                hundredsSentence = "";
-            else if (hundredsOfHundreds == '0')
+            if (hundredsOfHundreds == '0')
                 hundredsSentence = tenSentence;
             else
                 hundredsSentence = this.ConvertOnes(hundredsOfHundreds) + " " + this.ConvertNumberGroups(DEFAULT_HUNDREDS_SECTION) + " " + tenSentence + " ";
@@ -203,13 +211,16 @@ namespace NumberConvertion.Model
 
         private string EachThreeDigitConverter(string eachThreeDigit, int groupIndex)
         {
-            return this.ConvertHundreds(eachThreeDigit) + " " + this.ConvertNumberGroups(groupIndex) + " ";
+            if (eachThreeDigit.Equals(DEFAULT_EMPTY_SECTION))
+                return "";
+            else
+                return this.ConvertHundreds(eachThreeDigit) + " " + this.ConvertNumberGroups(groupIndex) + " ";
         }
 
         private List<string> SplitMaxThreeDigits(string mainValue)
         {
             List<string> listMainValue = new List<string>();
-            int remainMainValue = mainValue.Length % 3;
+            int remainMainValue = mainValue.Length % DEFAULT_EACH_SECTION_LENGTH;
 
             if (remainMainValue > 0)
             {
@@ -217,9 +228,10 @@ namespace NumberConvertion.Model
                 mainValue = mainValue.Substring(remainMainValue);
             }
 
-            var splitMainValue = Enumerable.Range(0, mainValue.Length / 3)
-                                           .Select(i => mainValue.Substring(i * 3, 3))
-                                           .ToList();
+            var splitMainValue = Enumerable
+                                .Range(0, mainValue.Length / DEFAULT_EACH_SECTION_LENGTH)
+                                .Select(i => mainValue.Substring(i * DEFAULT_EACH_SECTION_LENGTH, DEFAULT_EACH_SECTION_LENGTH))
+                                .ToList();
 
             listMainValue.AddRange(splitMainValue);
 
@@ -239,25 +251,63 @@ namespace NumberConvertion.Model
                 wordsOfNumber.Append(this.EachThreeDigitConverter(mainValueTemp, remainListCounter));
                 remainListCounter--;
 
-                if (remainListCounter == 0)
-                    break;
+                //if (mainValueTemp.Equals(DEFAULT_EMPTY_SECTION))
+                //{
+                //    // the last index in string builder which contains (" and ") :
+                //    int startingIndexToRemove = wordsOfNumber.Length - 5;
+
+                //    wordsOfNumber.Remove(startingIndexToRemove, 5);
+                //    continue;
+                //}
+
+                //if (remainListCounter == 0)
+                //    break;
 
                 wordsOfNumber.Append(" and ");
             }
 
-            if(wordsOfNumber.ToString().Replace(" ", "") != string.Empty)
+            if (wordsOfNumber.ToString().Replace(" ", "") != string.Empty)
                 wordsOfNumber.Append("dollars ");
 
             // create cents value:
             string centSentence = this.EachThreeDigitConverter(this.centsValue, DEFAULT_NUMBER_SECTION);
 
-            if(centSentence.Replace(" ", "") != string.Empty)
+            if (centSentence.Replace(" ", "") != string.Empty)
+                wordsOfNumber.Append(" and " + centSentence + "cents");
+
+            return this.FixSentenceFormat(wordsOfNumber.ToString());
+        }
+
+        private string FixSentenceFormat(string sentence)
+        {
+            // fix minor bugs of sentence:
+            RegexOptions options = RegexOptions.None;
+            Regex regex = new Regex("[ ]{2,}", options);
+            sentence = regex.Replace(sentence, " ");
+
+            if (sentence[0].Equals('-'))
+                sentence = sentence.Substring(1);
+
+            while (sentence.Contains(" -"))
             {
-                wordsOfNumber.Append(centSentence);
-                wordsOfNumber.Append("cents");
+                sentence = sentence.Replace(" -", " ");
             }
-            
-            return wordsOfNumber.ToString().ToUpper();
+
+            while (sentence.Contains(" and and "))
+            {
+                sentence = sentence.Replace(" and and ", " and ");
+            }
+
+            while (sentence.Contains(" and dollars "))
+            {
+                sentence = sentence.Replace(" and dollars ", " dollars ");
+            }
+
+            if (sentence.Replace(" ", "").Equals("dollars"))
+                sentence = "-";
+
+            // display sentence in uppercase:
+            return sentence.ToUpper();
         }
     }
 }

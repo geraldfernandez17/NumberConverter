@@ -1,4 +1,4 @@
-﻿using NumberConvertion.Model;
+﻿using NumberConvertion.Model.NumberToWords;
 using System;
 using System.Windows.Forms;
 
@@ -6,6 +6,8 @@ namespace NumberConvertion
 {
     public partial class number_converter : Form
     {
+        private const string DEFAULT_CENTS_VALUE = "00";
+
         public number_converter()
         {
             InitializeComponent();
@@ -26,7 +28,7 @@ namespace NumberConvertion
                 if (split_main_input.Length > 1)
                     number.CentsValue = split_main_input[1];
                 else
-                    number.CentsValue = "000";
+                    number.CentsValue = DEFAULT_CENTS_VALUE;
 
                 this.lbl_ouput.Text = number.ConvertNumberIntoWords();
             }
@@ -68,6 +70,16 @@ namespace NumberConvertion
         {
             this.lbl_ouput.Text = "";
             this.lbl_warning.Text = "";
+        }
+
+        private void tb_input_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                //Do something
+                this.btn_convert_Click(sender, e);
+                e.Handled = true;
+            }
         }
     }
 }
