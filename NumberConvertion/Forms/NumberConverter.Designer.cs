@@ -41,24 +41,26 @@ namespace NumberConvertion
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(28, 26);
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label2.Location = new System.Drawing.Point(28, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(54, 25);
+            this.label2.Size = new System.Drawing.Size(58, 25);
             this.label2.TabIndex = 6;
             this.label2.Text = "Input";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(368, 247);
+            this.label3.Font = new System.Drawing.Font("Segoe UI Black", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label3.Location = new System.Drawing.Point(363, 176);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(63, 25);
+            this.label3.Size = new System.Drawing.Size(68, 25);
             this.label3.TabIndex = 7;
             this.label3.Text = "Ouput";
             // 
             // btn_convert
             // 
-            this.btn_convert.Location = new System.Drawing.Point(28, 132);
+            this.btn_convert.Location = new System.Drawing.Point(28, 74);
             this.btn_convert.Name = "btn_convert";
             this.btn_convert.Size = new System.Drawing.Size(112, 34);
             this.btn_convert.TabIndex = 2;
@@ -68,25 +70,26 @@ namespace NumberConvertion
             // 
             // lbl_ouput
             // 
-            this.lbl_ouput.Location = new System.Drawing.Point(107, 300);
+            this.lbl_ouput.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lbl_ouput.ForeColor = System.Drawing.Color.ForestGreen;
+            this.lbl_ouput.Location = new System.Drawing.Point(28, 223);
             this.lbl_ouput.Name = "lbl_ouput";
-            this.lbl_ouput.Size = new System.Drawing.Size(588, 106);
+            this.lbl_ouput.Size = new System.Drawing.Size(734, 218);
             this.lbl_ouput.TabIndex = 5;
-            this.lbl_ouput.Text = ". . . .";
-            this.lbl_ouput.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_ouput.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lbl_warning
             // 
             this.lbl_warning.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
             this.lbl_warning.ForeColor = System.Drawing.Color.OrangeRed;
-            this.lbl_warning.Location = new System.Drawing.Point(28, 189);
+            this.lbl_warning.Location = new System.Drawing.Point(28, 111);
             this.lbl_warning.Name = "lbl_warning";
-            this.lbl_warning.Size = new System.Drawing.Size(458, 58);
+            this.lbl_warning.Size = new System.Drawing.Size(734, 65);
             this.lbl_warning.TabIndex = 4;
             // 
             // btn_reset
             // 
-            this.btn_reset.Location = new System.Drawing.Point(159, 132);
+            this.btn_reset.Location = new System.Drawing.Point(146, 74);
             this.btn_reset.Name = "btn_reset";
             this.btn_reset.Size = new System.Drawing.Size(112, 34);
             this.btn_reset.TabIndex = 3;
@@ -96,7 +99,7 @@ namespace NumberConvertion
             // 
             // tb_input
             // 
-            this.tb_input.Location = new System.Drawing.Point(28, 70);
+            this.tb_input.Location = new System.Drawing.Point(28, 37);
             this.tb_input.Name = "tb_input";
             this.tb_input.Size = new System.Drawing.Size(403, 31);
             this.tb_input.TabIndex = 1;

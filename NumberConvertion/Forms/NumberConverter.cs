@@ -1,13 +1,11 @@
-﻿using NumberConvertion.Model.NumberToWords;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using NumberConverter.Model.NumberToWords.English;
 
 namespace NumberConvertion
 {
     public partial class number_converter : Form
     {
-        private const string DEFAULT_CENTS_VALUE = "00";
-
         public number_converter()
         {
             InitializeComponent();
@@ -20,17 +18,9 @@ namespace NumberConvertion
 
             try
             {
-                string[] split_main_input = this.tb_input.Text.Split(".");
-
-                NumberToWords number = new NumberToWords();
-                number.MainValue = split_main_input[0];
-
-                if (split_main_input.Length > 1)
-                    number.CentsValue = split_main_input[1];
-                else
-                    number.CentsValue = DEFAULT_CENTS_VALUE;
-
+                EnglishUSDConverter number = new EnglishUSDConverter(this.tb_input.Text);
                 this.lbl_ouput.Text = number.ConvertNumberIntoWords();
+                //this.lbl_ouput.Text = number.MainValue + " # " + number.CentsValue;
             }
             catch (ArgumentOutOfRangeException ex)
             {
